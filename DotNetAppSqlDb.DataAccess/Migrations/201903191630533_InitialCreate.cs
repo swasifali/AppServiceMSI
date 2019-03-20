@@ -1,4 +1,4 @@
-namespace DotNetAppSqlDb.Migrations
+namespace DotNetAppSqlDb.DataAccess.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
@@ -14,6 +14,7 @@ namespace DotNetAppSqlDb.Migrations
                         ID = c.Int(nullable: false, identity: true),
                         Description = c.String(),
                         CreatedDate = c.DateTime(nullable: false),
+                        Done = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.ID);
             

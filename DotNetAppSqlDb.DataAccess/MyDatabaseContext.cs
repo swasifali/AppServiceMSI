@@ -5,10 +5,11 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
-using System.Web.Configuration;
+using DotNetAppSqlDb.Poco;
+//using System.Web.Configuration;
 using Microsoft.Azure.Services.AppAuthentication;
 
-namespace DotNetAppSqlDb.Models
+namespace DotNetAppSqlDb.DataAccess
 {
     public class MyDatabaseContext : DbContext
     {
@@ -18,21 +19,24 @@ namespace DotNetAppSqlDb.Models
         // automatically whenever you change your model schema, please use data migrations.
         // For more information refer to the documentation:
         // http://msdn.microsoft.com/en-us/data/jj591621.aspx
-    
-        public MyDatabaseContext() : base("name=MyDbConnection")
+
+        //public MyDatabaseContext() : base("name=MyDbConnection")
+        //{
+        //}
+
+        public MyDatabaseContext() : this (new SqlConnection())
         {
         }
 
         public MyDatabaseContext(SqlConnection conn) : base(conn, true)
         {
-            conn.ConnectionString = WebConfigurationManager.ConnectionStrings["MyDbConnection"].ConnectionString;
-            // DataSource != LocalDB means app is running in Azure with the SQLDB connection string you configured
+            conn.ConnectionString = ConfigurationManager.ConnectionStrings["MyDbConnection"].ConnectionString;
             if (Convert.ToBoolean(ConfigurationManager.AppSettings["UseMSI"]))
                 conn.AccessToken = (new AzureServiceTokenProvider()).GetAccessTokenAsync("https://database.windows.net/").Result;
 
             Database.SetInitializer<MyDatabaseContext>(null);
         }
 
-        public System.Data.Entity.DbSet<DotNetAppSqlDb.Models.Todo> Todoes { get; set; }
+        public System.Data.Entity.DbSet<Todo> Todoes { get; set; }
     }
 }

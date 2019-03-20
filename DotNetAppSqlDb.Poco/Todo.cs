@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace DotNetAppSqlDb.Models
+namespace DotNetAppSqlDb.Poco
 {
     public class Todo
     {
@@ -14,5 +14,9 @@ namespace DotNetAppSqlDb.Models
         public DateTime CreatedDate { get; set; }
 
         public bool Done { get; set; }
+
+        //To test migrations uncheck and execute Add-Migration
+        //[Display(Name = "Assigned To")]
+        //public string AssginedTo{ get; set; }
     }
 }
